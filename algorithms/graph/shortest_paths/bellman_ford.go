@@ -27,6 +27,10 @@ func BellmanFordSP(G *graph.Digraph, src int) *SP {
 
 		// Relax all edges in Graph.
 		for v := range G.V {
+			if sp.DistTo[v] == INF {
+				continue
+			}
+
 			for e := range G.Adjacent(v) {
 				w := e.Other(v)
 				newDist := sp.DistTo[v] + e.Weight()
