@@ -2,13 +2,9 @@
 
 package stackqueue
 
-import (
-	"iter"
-	"math/bits"
-)
+import "iter"
 
 const minimalCap = 64
-const minPowerOf2 = 62
 
 type Queue[T any] struct {
 	head, size int
@@ -18,21 +14,32 @@ type Queue[T any] struct {
 /* Create a Circular-buffer Queue with power of 2 capacity. */
 func NewQueue[T any](initCap int) *Queue[T] {
 	initCap = max(initCap, minimalCap)
-	finalCap := uint(initCap)
-
-	if bits.OnesCount(finalCap) != 1 {
-		counts := bits.Len(finalCap)
-		counts = min(counts, minPowerOf2)
-		finalCap = 1 << counts
-	}
+	capacity := alignPowerOf2(uint(initCap))
 
 	return &Queue[T]{
 		head:  0,
 		size:  0,
-		array: make([]T, finalCap),
+		array: make([]T, capacity),
 	}
 }
 
+/* Create a Circular-buffer Queue with initial items. */
+func NewQueueWith[T any](items ...T) *Queue[T] {
+	capacity := alignPowerOf2(uint(len(items)))
+	q := &Queue[T]{
+		head: 0,
+		size: 0,
+		array: make([]T, capacity),
+	}
+
+	for i := range items {
+		q.Enqueue(items[i])
+	}
+
+	return q
+}
+
+/* Append an item onto Queue. */ 
 func (q *Queue[T]) Enqueue(x T) {
 	if q.size == len(q.array) {
 		q.grow()
@@ -44,6 +51,7 @@ func (q *Queue[T]) Enqueue(x T) {
 	q.size++
 }
 
+/* Remove & return Queue's frontier item. */
 func (q *Queue[T]) Dequeue() (T, bool) {
 	var zero T
 
@@ -64,6 +72,7 @@ func (q *Queue[T]) Dequeue() (T, bool) {
 	return val, true
 }
 
+/* Access Queue's frontier item. */
 func (q *Queue[T]) Front() (T, bool) {
 	if q.size == 0 {
 		var zero T
@@ -73,6 +82,7 @@ func (q *Queue[T]) Front() (T, bool) {
 	return q.array[q.head], true
 }
 
+/* Clear all items of Queue. */
 func (q *Queue[T]) Clear() {
 	capacity := len(q.array)
 	var zero T
@@ -86,10 +96,13 @@ func (q *Queue[T]) Clear() {
 	q.size = 0
 }
 
+/* Calculate Queue's current size. */
 func (q *Queue[T]) Len() int { return q.size }
 
+/* Check is Queue is currently empty or not. */
 func (q *Queue[T]) IsEmpty() bool { return q.size == 0 }
 
+/* Iterator through all Queue's items. */
 func (q *Queue[T]) All() iter.Seq[T] {
 	return func(yield func(T) bool) {
 		N := q.size
