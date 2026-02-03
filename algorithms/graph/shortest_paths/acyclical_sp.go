@@ -33,8 +33,8 @@ func AcyclicalSP(G *graph.Digraph, src int) *SP {
 				w := e.Other(v)
 				newDist := sp.DistTo[v] + e.Weight()
 				if newDist < sp.DistTo[w] { 
-					sp.EdgeTo[w] = e
 					sp.DistTo[w] = newDist // Relax edge
+					sp.EdgeTo[w] = e
 				}
 			}
 		}
