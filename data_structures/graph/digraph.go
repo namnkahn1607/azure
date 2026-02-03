@@ -90,8 +90,9 @@ func (G *Digraph) AddEdge(e Edge) {
 func (G *Digraph) Adjacent(v int) iter.Seq[Edge] {
 	G.IsVertexOf(v)
 	return func(yield func(Edge) bool) {
-		for _, e := range G.Adj[v] {
-			if !yield(e) {
+		N := len(G.Adj[v])
+		for i := range N {
+			if !yield(G.Adj[v][i]) {
 				return
 			}
 		}
@@ -161,7 +162,7 @@ func (G *Digraph) PostOrder() iter.Seq[int] {
 		var dfs func(int)
 		dfs = func(v int) {
 			marked[v] = true
-			
+
 			for e := range G.Adjacent(v) {
 				w := e.Other(v)
 				if !marked[w] {
