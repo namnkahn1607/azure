@@ -11,9 +11,9 @@ import (
 
 type Digraph struct {
 	E, V   int
-	Adj    [][]Edge
-	Outdeg []int
-	Indeg  []int
+	adj    [][]Edge
+	outdeg []int
+	indeg  []int
 }
 
 /* Create a Directed Graph with V vertices. */
@@ -25,9 +25,9 @@ func NewDigraph(V int) *Digraph {
 	return &Digraph{
 		E:      0,
 		V:      V,
-		Adj:    make([][]Edge, V),
-		Outdeg: make([]int, V),
-		Indeg:  make([]int, V),
+		adj:    make([][]Edge, V),
+		outdeg: make([]int, V),
+		indeg:  make([]int, V),
 	}
 }
 
@@ -56,7 +56,7 @@ func NewDigraphIO(r io.Reader) *Digraph {
 
 	G := &Digraph{
 		V:   V,
-		Adj: make([][]Edge, V),
+		adj: make([][]Edge, V),
 	}
 
 	E := readInt()
@@ -80,9 +80,9 @@ func (G *Digraph) AddEdge(e Edge) {
 	G.IsVertexOf(from)
 	G.IsVertexOf(to)
 
-	G.Adj[from] = append(G.Adj[from], e)
-	G.Outdeg[from]++
-	G.Indeg[to]++
+	G.adj[from] = append(G.adj[from], e)
+	G.outdeg[from]++
+	G.indeg[to]++
 	G.E++
 }
 
@@ -90,9 +90,9 @@ func (G *Digraph) AddEdge(e Edge) {
 func (G *Digraph) Adjacent(v int) iter.Seq[Edge] {
 	G.IsVertexOf(v)
 	return func(yield func(Edge) bool) {
-		N := len(G.Adj[v])
+		N := len(G.adj[v])
 		for i := range N {
-			if !yield(G.Adj[v][i]) {
+			if !yield(G.adj[v][i]) {
 				return
 			}
 		}
@@ -112,11 +112,23 @@ func (G *Digraph) Edges() iter.Seq[Edge] {
 	}
 }
 
+/* Indegree of a Directed Graph's vertex. */
+func (G *Digraph) Indegree(v int) int {
+	G.IsVertexOf(v)
+	return G.indeg[v]
+}
+
+/* Outdegree of a Directed Graph's vertex. */
+func (G *Digraph) Outdegree(v int) int {
+	G.IsVertexOf(v)
+	return G.outdeg[v]
+}
+
 /* Make a reversed clone of a Directed Graph. */
 func (G *Digraph) Reversed() *Digraph {
 	G_R := &Digraph{
 		V:   G.V,
-		Adj: make([][]Edge, G.V),
+		adj: make([][]Edge, G.V),
 	}
 
 	for e := range G.Edges() {
