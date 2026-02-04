@@ -8,7 +8,7 @@ import (
 )
 
 /*
-Topological order of vertices of a Digraph.
+Topological order of vertices of a Digraph (DFS).
 - Time: O(E + V) & Space: O(V).
 */
 func TopologicalDFS(G *graph.Digraph) []int {
@@ -18,7 +18,7 @@ func TopologicalDFS(G *graph.Digraph) []int {
 		MARKED   = 2
 	)
 
-	order := make([]int, G.V)
+	order := make([]int, 0, G.V)
 	marked := make([]int, G.V)
 
 	var dfs func(int) bool
