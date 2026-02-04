@@ -10,9 +10,9 @@ import (
 )
 
 type Graph struct {
-	E, V   int
-	Adj    [][]Edge
-	Degree []int
+	E, V int
+	adj  [][]Edge
+	deg  []int
 }
 
 /* Create a Undirected Graph with V vertices. */
@@ -22,10 +22,10 @@ func NewGraph(V int) *Graph {
 	}
 
 	return &Graph{
-		E:      0,
-		V:      V,
-		Adj:    make([][]Edge, V),
-		Degree: make([]int, V),
+		E:   0,
+		V:   V,
+		adj: make([][]Edge, V),
+		deg: make([]int, V),
 	}
 }
 
@@ -53,9 +53,9 @@ func NewGraphIO(r io.Reader) *Graph {
 	}
 
 	G := &Graph{
-		V:      V,
-		Adj:    make([][]Edge, V),
-		Degree: make([]int, V),
+		V:   V,
+		adj: make([][]Edge, V),
+		deg: make([]int, V),
 	}
 
 	E := readInt()
@@ -79,10 +79,10 @@ func (G *Graph) AddEdge(e Edge) {
 	G.IsVertexOf(from)
 	G.IsVertexOf(to)
 
-	G.Adj[from] = append(G.Adj[from], e)
-	G.Degree[from]++
-	G.Adj[to] = append(G.Adj[to], e)
-	G.Degree[to]++
+	G.adj[from] = append(G.adj[from], e)
+	G.deg[from]++
+	G.adj[to] = append(G.adj[to], e)
+	G.deg[to]++
 	G.E++
 }
 
@@ -90,13 +90,19 @@ func (G *Graph) AddEdge(e Edge) {
 func (G *Graph) Adjacent(v int) iter.Seq[Edge] {
 	G.IsVertexOf(v)
 	return func(yield func(Edge) bool) {
-		N := len(G.Adj[v])
+		N := len(G.adj[v])
 		for i := range N {
-			if !yield(G.Adj[v][i]) {
+			if !yield(G.adj[v][i]) {
 				return
 			}
 		}
 	}
+}
+
+/* Degree of a Undirected Graph's vertex. */
+func (G *Graph) Degree(v int) int {
+	G.IsVertexOf(v)
+	return G.deg[v]
 }
 
 /* All edges from a Undirected Graph. */
@@ -109,7 +115,7 @@ func (G *Graph) Edges() iter.Seq[Edge] {
 						return
 					}
 				}
-			} 
+			}
 		}
 	}
 }
