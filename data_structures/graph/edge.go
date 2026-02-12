@@ -7,6 +7,7 @@ type Edge struct {
 	weight int
 }
 
+/* Create a general-purpose Graph edge. */
 func NewEdge(u, v, weight int) *Edge {
 	return &Edge{u, v, weight}
 }
