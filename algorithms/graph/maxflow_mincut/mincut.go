@@ -1,4 +1,4 @@
-/* API: Maxflow */
+/* API: Maxflow Mincut */
 
 package maxflow
 
