@@ -71,7 +71,7 @@ func NewFlowNetworkIO(r io.Reader) *FlowNetwork {
 
 /* Add a flow edge onto the Flow Network. */
 func (G *FlowNetwork) AddEdge(e FlowEdge) {
-	v, w := e.v, e.w
+	v, w := e.from, e.to
 	G.IsVertexOf(v)
 	G.IsVertexOf(w)
 
