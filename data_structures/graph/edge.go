@@ -20,7 +20,7 @@ func (e *Edge) Head() int {
 	return e.v
 }
 
-/* Another endpoint of a vertex in an edge. */
+/* Another endpoint of a vertex in an Edge. */
 func (e *Edge) Other(v int) int {
 	switch v {
 	case e.v:
@@ -32,7 +32,7 @@ func (e *Edge) Other(v int) int {
 	panic("invalid edge endpoint")
 }
 
-/* An edge's weight. */
+/* An Edge's weight. */
 func (e *Edge) Weight() int {
 	return e.weight
 }
