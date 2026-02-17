@@ -24,7 +24,7 @@ func AcyclicalSP(G *graph.Digraph, src int) *SP {
 	}
 
 	// Topological order of DAG.
-	topo := topological.TopologicalDFS(G)
+	topo := topological.TopologicalBFS(G)
 	sp.DistTo[src] = 0
 
 	for _, v := range topo {
