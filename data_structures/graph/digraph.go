@@ -124,6 +124,28 @@ func (G *Digraph) Outdegree(v int) int {
 	return G.outdeg[v]
 }
 
+/* All reachable vertices from vertex 'v'. */
+func (G *Digraph) Reachable(v int) iter.Seq[int] {
+	return func(yield func(int) bool) {
+		marked := make([]bool, G.V)
+
+		var dfs func(int)
+		dfs = func(v int) {
+			marked[v] = true
+			if !yield(v) {
+				return
+			}
+
+			for e := range G.Adjacent(v) {
+				w := e.Other(v)
+				if !marked[w] {
+					dfs(w)
+				}
+			}
+		}
+	}
+}
+
 /* Make a reversed clone of a Directed Graph. */
 func (G *Digraph) Reversed() *Digraph {
 	G_R := &Digraph{
