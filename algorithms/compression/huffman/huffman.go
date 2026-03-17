@@ -82,7 +82,7 @@ func Decode(in io.Reader, out io.Writer) error {
 				if bitIOErr == io.EOF {
 					return io.ErrUnexpectedEOF
 				}
-				
+
 				return bitIOErr
 			}
 
@@ -135,19 +135,19 @@ func constructTrie(freqs [R]int) *Node {
 
 	for c := range R {
 		if freqs[c] > 0 {
-			minpq.Enqueue(newNode(byte(c), freqs[c], nil, nil))
+			minpq.Enqueue(NewNode(byte(c), freqs[c], nil, nil))
 		}
 	}
 
 	if minpq.Len() == 1 {
-		minpq.Enqueue(newNode('\u0000', 0, nil, nil))
+		minpq.Enqueue(NewNode('\u0000', 0, nil, nil))
 	}
 
 	for minpq.Len() > 1 {
 		left := minpq.Dequeue()
 		right := minpq.Dequeue()
 
-		parent := newNode('\u0000', left.Freq+right.Freq, left, right)
+		parent := NewNode('\u0000', left.Freq+right.Freq, left, right)
 		minpq.Enqueue(parent)
 	}
 
@@ -209,7 +209,7 @@ func readTrie(br *binaryio.BinaryReader) (*Node, error) {
 			return nil, byteErr
 		}
 
-		return newNode(ch, -1, nil, nil), nil
+		return NewNode(ch, -1, nil, nil), nil
 	}
 
 	left, leftErr := readTrie(br)
@@ -222,5 +222,5 @@ func readTrie(br *binaryio.BinaryReader) (*Node, error) {
 		return nil, rightErr
 	}
 
-	return newNode('\u0000', -1, left, right), nil
+	return NewNode('\u0000', -1, left, right), nil
 }

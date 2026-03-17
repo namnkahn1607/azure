@@ -9,7 +9,8 @@ type Node struct {
 	Right *Node
 }
 
-func newNode(char byte, freq int, left, right *Node) *Node {
+/* Create a new Binary Trie Node. */
+func NewNode(char byte, freq int, left, right *Node) *Node {
 	return &Node{
 		Char:  char,
 		Freq:  freq,
