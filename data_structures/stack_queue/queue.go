@@ -27,8 +27,8 @@ func NewQueue[T any](initCap int) *Queue[T] {
 func NewQueueWith[T any](items ...T) *Queue[T] {
 	capacity := alignPowerOf2(uint(len(items)))
 	q := &Queue[T]{
-		head: 0,
-		size: 0,
+		head:  0,
+		size:  0,
 		array: make([]T, capacity),
 	}
 
@@ -39,7 +39,7 @@ func NewQueueWith[T any](items ...T) *Queue[T] {
 	return q
 }
 
-/* Append an item onto Queue. */ 
+/* Append an item onto Queue. */
 func (q *Queue[T]) Enqueue(x T) {
 	if q.size == len(q.array) {
 		q.grow()
