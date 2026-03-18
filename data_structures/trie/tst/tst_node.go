@@ -1,6 +1,6 @@
 /* API: TST Node */
 
-package trie
+package tst
 
 type TSTNode[T any] struct {
 	Char                byte

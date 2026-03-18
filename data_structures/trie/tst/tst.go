@@ -1,6 +1,6 @@
 /* Data Structure: Ternary Search Trie */
 
-package trie
+package tst
 
 import "iter"
 
