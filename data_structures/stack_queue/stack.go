@@ -62,10 +62,10 @@ func (s *Stack[T]) Peek() (T, bool) {
 	return s.array[len(s.array)-1], true
 }
 
-/* Calculate Stack's current size. */
+/* Stack's current size. */
 func (s *Stack[T]) Len() int { return len(s.array) }
 
-/* Check is Stack is currently empty or not. */
+/* Check if Stack is currently empty or not. */
 func (s *Stack[T]) IsEmpty() bool { return len(s.array) == 0 }
 
 /* Iterator through all Stack's items. */
