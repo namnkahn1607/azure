@@ -69,9 +69,13 @@ func (br *BinaryReader) ReadMultiBits(n uint8) (uint64, error) {
 		bit, bitReadErr := br.ReadBit()
 		if bitReadErr != nil {
 			if bitReadErr == io.EOF {
-				return res, nil
+				if i == 0 {
+					return 0xFF, io.EOF
+				}
+
+				return 0xFF, io.ErrUnexpectedEOF
 			}
-			
+
 			return 0xFF, bitReadErr
 		}
 		
