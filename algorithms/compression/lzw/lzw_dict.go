@@ -2,7 +2,10 @@
 
 package lzw
 
-const R = 256
+const (
+	R uint16 = 256
+	MaxCode uint16 = (1 << 16) - 1
+)
 
 type LZWNode struct {
 	Char                byte
@@ -24,7 +27,6 @@ func NewLZWNode(char byte, code uint16) *LZWNode {
 type LZWDict struct {
 	roots    [R]*LZWNode
 	nextCode uint16
-	maxCode  uint16
 }
 
 /* Initialize a new LZW Dictionary. */
@@ -32,6 +34,5 @@ func NewLZWDictionary() *LZWDict {
 	return &LZWDict{
 		roots:    [R]*LZWNode{},
 		nextCode: R + 1,
-		maxCode:  (1 << 16) - 1,
 	}
 }
