@@ -9,7 +9,7 @@ const R = 256
 var ErrVariableLenString = errors.New("strings must be of same length")
 
 /*
-Least Significant Digit Radix Sort.
+Least Significant Digit - Stable Radix Sort.
 - Time: O(W.N) & Space: O(N + R).
 */
 func LSD(strs []string, W int) error {
@@ -26,7 +26,7 @@ func LSD(strs []string, W int) error {
 	for d := W - 1; d >= 0; d-- {
 		clear(count)
 
-		for i := range N { // Count frequency
+		for i := range N { // Count frequencies
 			count[strs[i][d]+1]++
 		}
 
