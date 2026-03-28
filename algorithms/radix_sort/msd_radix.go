@@ -27,7 +27,7 @@ func sort(strs []string, lo, hi, d int, aux []string) {
 		return
 	}
 
-	/* count[0] must be 0 to preserve cumulation. */
+	// count[0] must be 0 to preserve cumulation.
 	var count [R + 2]int
 
 	for i := lo; i <= hi; i++ { // Count frequencies
@@ -47,7 +47,7 @@ func sort(strs []string, lo, hi, d int, aux []string) {
 
 	copy(strs[lo:hi+1], aux[lo:hi+1]) // Copy back
 
-	/* Sort R subarrays recursively. */
+	// Sort R subarrays recursively.
 	for r := range R {
 		newLo := lo + count[r]
 		newHi := lo + count[r+1] - 1
